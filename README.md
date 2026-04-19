@@ -42,8 +42,20 @@ allprojects {
 ```groovy
 dependencies {
     implementation 'com.github.baiqingsong:lib-qiniu:Tag'
-    // 七牛 SDK 排除了 okhttp，宿主 app 需自行提供
+    // 七牛 SDK 运行时需要 okhttp，以下二选一：
+    // 方式1：如果已引用 lib-network，okhttp 由 lib-network 提供，无需重复添加
+    // 方式2：如果未引用 lib-network，需手动添加 okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+}
+```
+
+**与 lib-network 一起使用（推荐）：**
+
+```groovy
+dependencies {
+    implementation 'com.github.baiqingsong:lib-qiniu:Tag'
+    implementation 'com.github.baiqingsong:lib-network:Tag'
+    // okhttp 由 lib-network 提供，无需单独添加
 }
 ```
 
@@ -52,7 +64,9 @@ dependencies {
 ```groovy
 dependencies {
     implementation project(':qiniu')
-    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    // okhttp 由 lib-network 或宿主 app 提供
+    // 如果未引用 lib-network，需手动添加：
+    // implementation 'com.squareup.okhttp3:okhttp:4.12.0'
 }
 ```
 
